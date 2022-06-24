@@ -1,0 +1,96 @@
+using System;
+
+    class Captcha
+    {
+        public static string captcha_full = "";
+    public static int count_Update = 0;
+        public static Tuple<string, string> InitCaptcha()
+        {
+            Random rand = new Random();
+            int num = rand.Next(6, 8);
+            string captcha_first = "";
+            string captcha_second = "";
+            int totl = 0;
+            do
+            {
+                int chr = rand.Next(48, 123);
+                if ((chr >= 48 && chr <= 57) || (chr >= 65 && chr <= 90) || (chr >= 97 && chr <= 122))
+                {
+                    captcha_full = captcha_full + (char)chr;
+                    totl++;
+                    if (totl == num)
+                    {
+                        break;
+                    }
+                }
+        } while (true);
+            captcha_first = captcha_full.Substring(0, 3);
+            captcha_second = captcha_full.Substring(3, num-3);
+        count_Update++;
+            return Tuple.Create(captcha_first, captcha_second);
+        // (lbl_captcha_1.Content, lbl_captcha_2.Content) = Captcha.InitCaptcha();
+    }
+
+    public static bool CheckCaptcha(string input_captcha)
+        {
+            if (input_captcha == captcha_full)
+            {
+            SuccesCaptcha();
+                return true;
+            }
+            else
+         {
+              return false;
+          }
+        //bool valid_captcha = Captcha.CheckCaptcha(tb_check_captcha.Text);
+    }
+
+    public static Tuple<string, string> UpdateCaptcha() 
+    {
+        captcha_full = "";
+        return InitCaptcha();
+        //(lbl_captcha_1.Content, lbl_captcha_2.Content) = Captcha.UpdateCaptcha();
+    }
+
+    public static void SuccesCaptcha()
+    {
+        captcha_full = "";
+        count_Update = 0;
+    }
+}
+/////////////////////////////////
+class ConnectOdb
+    {
+    public static void RaiseExectionErrorInSQL()
+    {
+        MessageBox.Show("Ошибка! Повторите действие!");
+    }
+
+    public static Tuple<DataTable, bool> Select(string selectSQL)
+        {
+            DataTable dataTable = new DataTable("dataBase");
+
+            bool status = false;
+            try
+            {
+                MySqlConnection sqlConnection = new MySqlConnection("SERVER=localhost;PORT=3306;database=dbo;uid=root;password=root;");
+                //MySqlConnection sqlConnection = new MySqlConnection("SERVER=10.251.8.242;PORT=3307;database=dbo;uid=newuser;password=qaz123;SSL MODE=NONE");
+
+                sqlConnection.Open();
+                MySqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandText = selectSQL;
+                MySqlDataAdapter sqlDataAdapter = new MySqlDataAdapter(sqlCommand);
+                sqlDataAdapter.Fill(dataTable);
+                sqlConnection.Close();
+                status = true;
+                return Tuple.Create(dataTable, status);
+// Tuple<DataTable, bool> result = ConnectOdb.Select("SELECT * FROM dbo.manufacturer;");
+        }
+            catch (Exception ex)
+            {
+                RaiseExectionErrorInSQL();
+                return Tuple.Create(dataTable, status);
+            }
+        }
+
+    }

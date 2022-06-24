@@ -1,0 +1,22 @@
+ private void Delete(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MySqlConnection connection = Connection.ConnectToDb();
+                connection.Open();
+                MySqlCommand cmd = new MySqlCommand("DELETE FROM client WHERE (CodeClient = @1);", connection);
+                cmd.Parameters.AddWithValue("@1", tb1.Text);
+                cmd.ExecuteNonQuery();
+                connection.Close();
+
+                connection.Open();
+                MySqlCommand cmd1 = new MySqlCommand("SELECT * FROM procat_sokolov.client;", connection);
+                DataTable dt = new DataTable();
+                dt.Load(cmd1.ExecuteReader());
+                connection.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка в заполении! Проверьте правильность ввода данных");
+            }
+        }

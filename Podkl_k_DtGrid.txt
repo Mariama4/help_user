@@ -1,0 +1,14 @@
+public Klient()
+        {
+            InitializeComponent();
+
+            MySqlConnection connection = Connection.ConnectToDb();
+            connection.Open();
+            MySqlCommand cmd = new MySqlCommand("SELECT * FROM procat_sokolov.client;", connection);
+            DataTable dt = new DataTable();
+            dt.Load(cmd.ExecuteReader());
+            connection.Close();
+            "НАзвание датагрид"dat2.DataContext = dt;
+        }
+
+ <DataGrid x:Name="dat1" ItemsSource="{Binding}" HorizontalAlignment="Left" Height="358" Margin="10,10,0,0" VerticalAlignment="Top" Width="772"/>

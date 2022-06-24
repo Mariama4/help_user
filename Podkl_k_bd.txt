@@ -1,0 +1,9 @@
+class Connection
+    {
+        public static MySqlConnection ConnectToDb()
+        {
+            string connectionStting = "server = ; port = ; database = ; uid = ; password = ";
+            return new MySqlConnection(connectionStting);
+        }
+    }
+}

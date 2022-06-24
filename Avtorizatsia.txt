@@ -1,0 +1,49 @@
+Авторизация
+Код на окне ввода логина
+Кнопка IsDefault="True"
+ public partial class passwordWindow : Window
+    {
+        public passwordWindow()
+        {
+            InitializeComponent();
+        }
+
+        private void AcceptClick(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+        }
+
+        public string Password
+        {
+            get { return passwordBox.Text; }
+        }
+    }
+}
+*функция кнопки*
+try
+            {
+                Window1 passwordW = new Window1();
+                if (passwordW.ShowDialog() == true)
+                {
+                    if (passwordW.Password == "123")
+                    {
+                        Window2 admin = new Window2();
+                        admin.Show();
+                        this.Close();
+                    }
+                    else if (passwordW.Password == "321")
+                    {
+                        Window3 user = new Window3();
+                        user.Show();
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("NO");
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("PODKL");
+            }
